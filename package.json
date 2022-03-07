@@ -1,5 +1,5 @@
 {
-  "homepage": "https://github.io/xkalf/timer-tw",
+  "homepage": "https://xkalf.github.io/timer-tw",
   "name": "timer-tailwindcss",
   "version": "0.1.0",
   "private": true,
@@ -20,7 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh pages -d build"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
