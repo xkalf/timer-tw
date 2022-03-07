@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/timer-tw/static/css/main.3416572b.css",
+    "main.js": "/timer-tw/static/js/main.2e6145a5.js",
+    "static/media/Timer-white.png": "/timer-tw/static/media/Timer-white.7f18ba92c54e2d6c07ec.png",
+    "index.html": "/timer-tw/index.html",
+    "main.3416572b.css.map": "/timer-tw/static/css/main.3416572b.css.map",
+    "main.2e6145a5.js.map": "/timer-tw/static/js/main.2e6145a5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3416572b.css",
+    "static/js/main.2e6145a5.js"
+  ]
+}
