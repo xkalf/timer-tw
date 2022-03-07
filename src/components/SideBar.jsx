@@ -6,7 +6,7 @@ import Stats from "./Stats";
 
 const SideBar = () => {
   return (
-    <div className="flex h-full w-1/5 flex-col gap-y-6 bg-sideBar px-2 pt-7 lg:px-7">
+    <div className="flex h-full w-1/5 flex-col gap-y-6 bg-sideBar px-3 pt-7 xl:px-7">
       <NavBar />
       <Stats />
       <SolvesList />
