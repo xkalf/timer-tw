@@ -3,17 +3,24 @@ import React, { useState, useEffect } from "react";
 import EmptySpace from "./components/EmptySpace";
 import Main from "./components/Main";
 import SideBar from "./components/SideBar";
-import { getBest, displayTime, loadAvg } from "./utils/TimerUtils";
+import { displayTime, getAvg } from "./utils/TimerUtils";
 import mainScramble from "./utils/Scramble";
 
 function App() {
   const [theme, setTheme] = useState("dark");
   const [state, setState] = useState("");
-  const [solves, setSolves] = useState([]);
+  const [solves, setSolves] = useState([
+    {
+      time: 0,
+      date: Date.now,
+      scramble: "",
+      ao5: getAvg([], 0, 5),
+      ao12: getAvg([], 0, 12),
+      ao50: getAvg([], 0, 50),
+      ao100: getAvg([], 0, 100),
+    },
+  ]);
   const [displaySec, setDisplaySec] = useState("");
-  const [ao5, setAo5] = useState([]);
-  const [ao12, setAo12] = useState([]);
-  const [best, setBest] = useState(0);
   const [scramble, setScramble] = useState("");
   const [currentType, setCurrentType] = useState("3x3");
 
@@ -40,9 +47,21 @@ function App() {
     running = true;
   };
   const timeStop = () => {
-    setSolves((curr) => [...curr, millSec]);
+    setSolves((curr) => [
+      ...curr,
+      {
+        time: millSec,
+        date: Date.now,
+        scramble: scramble,
+        ao5: getAvg(curr, millSec, 5),
+        ao12: getAvg(curr, millSec, 12),
+        ao50: getAvg(curr, millSec, 50),
+        ao100: getAvg(curr, millSec, 100),
+      },
+    ]);
     clearInterval(myInterval);
     running = false;
+    setScramble(mainScramble(currentType));
   };
   const deleteTime = (index) => {
     const temp = [...solves];
@@ -51,27 +70,18 @@ function App() {
   };
   const plusTime = (index) => {
     const temp = [...solves];
-    temp[index] += 200;
+    temp[index].time += 200;
     setSolves(temp);
   };
   const dnfTime = (index) => {
     const temp = [...solves];
-    temp[index] = -1;
+    temp[index].time = -1;
     setSolves(temp);
-  };
-  const addAo5 = () => {
-    setAo5(loadAvg(solves, 5));
-  };
-  const addAo12 = () => {
-    setAo12(loadAvg(solves, 12));
   };
   const resetSolves = () => {
     let answer = window.confirm("Are you sure?");
     if (!answer) return;
     setSolves([]);
-    setBest(0);
-    setAo5([]);
-    setAo12([]);
     localStorage.setItem("solves", JSON.stringify([]));
   };
   useEffect(() => {
@@ -81,8 +91,6 @@ function App() {
     setCurrentType(JSON.parse(localStorage.getItem("type")) || "3x3");
 
     setSolves(JSON.parse(localStorage.getItem("solves")) || []);
-    setAo5(loadAvg(solves, 5));
-    setAo12(loadAvg(solves, 12));
 
     window.addEventListener("keydown", (event) => {
       if (event.code === "Space") {
@@ -126,18 +134,6 @@ function App() {
   }, []);
   useEffect(() => {
     localStorage.setItem("solves", JSON.stringify(solves));
-    setScramble(mainScramble(currentType));
-
-    if (solves.length !== 0) setBest(displayTime(getBest(solves)));
-    else setBest(displayTime(0));
-
-    if (solves.length >= 5) {
-      addAo5();
-    }
-
-    if (solves.length >= 12) {
-      addAo12();
-    }
   }, [solves]);
   useEffect(() => {
     setScramble(mainScramble(currentType));
@@ -147,17 +143,13 @@ function App() {
     <div className="flex h-screen overflow-hidden">
       <SideBar
         solves={solves}
+        setSolves={setSolves}
         displayTime={displayTime}
-        deleteTime={deleteTime}
-        plusTime={plusTime}
-        dnfTime={dnfTime}
-        ao5={ao5}
-        ao12={ao12}
-        addAo5={addAo5}
-        addAo12={addAo12}
         themeToggler={themeToggler}
-        best={best}
         theme={theme}
+        dnfTime={dnfTime}
+        plusTime={plusTime}
+        deleteTime={deleteTime}
       />
       <Main
         theme={theme}

@@ -52,16 +52,32 @@ export const displayTime = (time) => {
 
 export const getBest = (arr) => {
   const temp = [...arr];
-  const result = temp.filter((i) => i >= 0);
+  const result = temp.filter((i) => i.time >= 0);
   if (result.length === 0) return 0;
-  return Math.min(...result);
+  return Math.min.apply(
+    Math,
+    result.map((item) => item.time)
+  );
 };
 
-export const getAvg = (arr, length) => {
-  let newArr = [];
+export const getAvg = (arr, currentTime, length) => {
+  if (arr.length < length - 1) return 0;
+  let newArr = [currentTime];
+  let newArr2 = arr.map((item) => item.time);
 
   for (let i = length - 1; i >= 0; i--) {
-    newArr = [...newArr, arr[i]];
+    newArr = [...newArr, newArr2[i]];
+  }
+
+  newArr = newArr.filter((item) => item >= 0);
+
+  if (newArr.length < length - 1) return -1;
+  if (newArr.length === length - 1) {
+    const min = Math.min(...newArr);
+    const index1 = newArr.indexOf(min);
+    newArr.splice(index1, 1);
+    const avg = newArr.reduce((a, b) => a + b, 0) / newArr.length;
+    return avg.toFixed();
   }
 
   const min = Math.min(...newArr);
@@ -75,31 +91,4 @@ export const getAvg = (arr, length) => {
   const avg = newArr.reduce((a, b) => a + b, 0) / newArr.length;
 
   return avg.toFixed();
-};
-
-export const loadAvg = (arr, length) => {
-  if (arr.length >= length) {
-    let result = [];
-
-    for (let i = 0; i < arr.length - (length - 1); i++) {
-      let newArr = [];
-      for (let j = 0; j < length; j++) {
-        newArr = [...newArr, arr[j + i]];
-      }
-
-      const min = Math.min(...newArr);
-      const max = Math.max(...newArr);
-
-      const index1 = newArr.indexOf(min);
-      newArr.splice(index1, 1);
-      const index2 = newArr.indexOf(max);
-      newArr.splice(index2, 1);
-
-      const avg = Math.floor(newArr.reduce((a, b) => a + b, 0) / newArr.length);
-      result = [...result, avg];
-    }
-
-    return result;
-  }
-  return [];
 };

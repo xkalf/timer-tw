@@ -1,48 +1,69 @@
 import React from "react";
+import { getBest } from "../utils/TimerUtils";
 
-const Stats = ({ solves, displayTime, ao5, ao12, best }) => {
+const Stats = ({ solves, displayTime }) => {
   return (
     <div className="flex flex-col gap-2 xl:gap-5">
       <div className="flex h-[7vh] w-auto items-center justify-between rounded-[10px] bg-statBackground p-3 text-base uppercase text-textColor shadow xl:text-xl">
         <span>Best</span>
-        <span>{best}</span>
+        <span>{displayTime(getBest(solves))}</span>
       </div>
-      <div className="flex flex-col justify-between gap-2 xl:flex-row xl:gap-0">
-        <div className="flex h-[6vh] w-full items-center justify-between gap-2 rounded-[10px] bg-statBackground p-3 text-sm text-textColor xl:w-[48%] xl:text-base">
+      <Row>
+        <AvgItem>
           <span>Ao5</span>
           <span>
-            {ao5.length === 0
-              ? displayTime(0)
-              : displayTime(ao5[ao5.length - 1])}
+            {displayTime(
+              solves.length > 4 ? solves[solves.length - 1]["ao5"] : 0
+            )}
           </span>
-        </div>
-        <div className="hidden h-[6vh] w-full items-center justify-between gap-2 rounded-[10px] bg-statBackground p-3 text-sm text-textColor xl:flex xl:w-[48%] xl:text-base">
+        </AvgItem>
+        <AvgItemHide>
           <span>Ao50</span>
           <span>
-            {ao5.length === 0 ? displayTime(0) : displayTime(Math.min(...ao5))}
+            {displayTime(
+              solves.length > 49 ? solves[solves.length - 1]["ao50"] : 0
+            )}
           </span>
-        </div>
-      </div>
-      <div className="flex flex-col justify-between gap-2 xl:flex-row xl:gap-0">
-        <div className="flex h-[6vh] w-full items-center justify-between gap-2 rounded-[10px] bg-statBackground p-3 text-sm text-textColor xl:w-[48%] xl:text-base">
+        </AvgItemHide>
+      </Row>
+      <Row>
+        <AvgItem>
           <span>Ao12</span>
           <span>
-            {ao12.length === 0
-              ? displayTime(0)
-              : displayTime(ao12[ao12.length - 1])}
+            {displayTime(
+              solves.length > 11 ? solves[solves.length - 1]["ao12"] : 0
+            )}
           </span>
-        </div>
-        <div className="hidden h-[6vh] w-full items-center justify-between gap-2 rounded-[10px] bg-statBackground p-3 text-sm text-textColor xl:flex xl:w-[48%] xl:text-base">
+        </AvgItem>
+        <AvgItemHide>
           <span>Ao100</span>
           <span>
-            {ao12.length === 0
-              ? displayTime(0)
-              : displayTime(Math.min(...ao12))}
+            {displayTime(
+              solves.length > 99 ? solves[solves.length - 1]["ao100"] : 0
+            )}
           </span>
-        </div>
-      </div>
+        </AvgItemHide>
+      </Row>
     </div>
   );
 };
+
+const Row = ({ children }) => (
+  <div className="flex flex-col justify-between gap-2 md:flex-row md:gap-0">
+    {children}
+  </div>
+);
+
+const AvgItemHide = ({ children }) => (
+  <div className="hidden h-[6vh] w-full items-center justify-between gap-2 rounded-[10px] bg-statBackground p-3 text-sm text-textColor md:flex md:w-[48%] md:text-base">
+    {children}
+  </div>
+);
+
+const AvgItem = ({ children }) => (
+  <div className="flex h-[6vh] w-full items-center justify-between gap-2 rounded-[10px] bg-statBackground p-3 text-sm text-textColor md:w-[48%] md:text-base">
+    {children}
+  </div>
+);
 
 export default Stats;

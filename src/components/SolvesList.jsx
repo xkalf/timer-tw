@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Solves from "./Solves";
 
-const SolvesList = ({ solves, displayTime, deleteTime, plusTime, dnfTime }) => {
+const SolvesList = ({ solves, displayTime, plusTime, deleteTime, dnfTime }) => {
   const solvesListRef = useRef();
   useEffect(() => {
     solvesListRef.current.scrollTop = -100000000000000;
@@ -15,7 +15,7 @@ const SolvesList = ({ solves, displayTime, deleteTime, plusTime, dnfTime }) => {
         return (
           <Solves
             key={index}
-            time={displayTime(el)}
+            time={displayTime(el.time)}
             deleteTime={deleteTime}
             index={index}
             plusTime={plusTime}
