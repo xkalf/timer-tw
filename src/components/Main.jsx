@@ -34,7 +34,7 @@ const Main = ({ theme, displaySec, state, scramble, currentType }) => {
           Press and hold Space to start
         </p>
       </div>
-      <div className="flex h-1/5 items-center justify-between">
+      <div className="flex h-1/5 items-end justify-center">
         <img
           src={theme === "dark" ? whiteLogo : blackLogo}
           alt="logo"

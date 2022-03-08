@@ -16,7 +16,7 @@ const EmptySpace = ({ currentType, setCurrentType }) => {
         ) : sessionOpened === true ? (
           <SessionDropDown />
         ) : null}
-        <div className="flex h-1/5 w-full items-center justify-start">
+        <div className="flex h-1/5 w-full -translate-y-3 items-center justify-start">
           <div className="z-10 flex w-[180px] items-center rounded-[200px] bg-buttons p-1">
             <button
               className={`my-[21px] mx-[13px] flex cursor-pointer items-center justify-center border-none bg-none ${
