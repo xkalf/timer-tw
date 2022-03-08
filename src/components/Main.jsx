@@ -16,8 +16,8 @@ const Main = ({ theme, displaySec, state, scramble, currentType }) => {
       ? "text-3xl"
       : "text-4xl";
   return (
-    <div className="p-122 flex h-full w-4/5 flex-col items-center bg-mainBackground">
-      <div className="p-10s flex h-1/5 items-center justify-center p-5 py-10">
+    <div className="flex h-full w-4/5 flex-col items-center bg-mainBackground p-12">
+      <div className="flex h-1/5 items-center justify-center p-5 py-10">
         <p
           className={`mt-24 whitespace-pre-wrap text-center font-monserrat ${scrambleSize} text-scrambleText`}
         >

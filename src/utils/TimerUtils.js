@@ -1,4 +1,4 @@
-const displayTime = (time) => {
+export const displayTime = (time) => {
   if (time < 0) return "DNF";
   let result = "";
 
@@ -50,14 +50,14 @@ const displayTime = (time) => {
   return result;
 };
 
-const getBest = (arr) => {
+export const getBest = (arr) => {
   const temp = [...arr];
   const result = temp.filter((i) => i >= 0);
   if (result.length === 0) return 0;
   return Math.min(...result);
 };
 
-const getAvg = (arr, length) => {
+export const getAvg = (arr, length) => {
   let newArr = [];
 
   for (let i = length - 1; i >= 0; i--) {
@@ -77,7 +77,7 @@ const getAvg = (arr, length) => {
   return avg.toFixed();
 };
 
-const loadAvg = (arr, length) => {
+export const loadAvg = (arr, length) => {
   if (arr.length >= length) {
     let result = [];
 
@@ -102,11 +102,4 @@ const loadAvg = (arr, length) => {
     return result;
   }
   return [];
-};
-
-module.exports = {
-  displayTime,
-  getBest,
-  loadAvg,
-  getAvg,
 };
