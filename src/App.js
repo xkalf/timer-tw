@@ -11,7 +11,7 @@ function App() {
   const [state, setState] = useState("");
   const [solves, setSolves] = useState([]);
   const [displaySec, setDisplaySec] = useState("");
-  const [scramble, setScramble] = useState("");
+  const [scramble, setScramble] = useState("scrambling");
   const [currentType, setCurrentType] = useState("3x3");
 
   let millSec = 0;
@@ -51,7 +51,6 @@ function App() {
     ]);
     clearInterval(myInterval);
     running = false;
-    setScramble(mainScramble(currentType));
   };
   const deleteTime = (index) => {
     const temp = [...solves];
@@ -132,6 +131,7 @@ function App() {
   }, []);
   useEffect(() => {
     localStorage.setItem("solves", JSON.stringify(solves));
+    setScramble(mainScramble(currentType));
   }, [solves]);
   useEffect(() => {
     setScramble(mainScramble(currentType));
