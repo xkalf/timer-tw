@@ -62,33 +62,63 @@ export const getBest = (arr) => {
 
 export const getAvg = (arr, currentTime, length) => {
   if (arr.length < length - 1) return 0;
+
   let newArr = [currentTime];
   let newArr2 = arr.map((item) => item.time);
 
-  for (let i = length - 1; i >= 0; i--) {
-    newArr = [...newArr, newArr2[i]];
+  for (let i = 0; i < length - 1; i++) {
+    newArr = [...newArr, newArr2[newArr2.length - 1 - i]];
   }
 
   newArr = newArr.filter((item) => item >= 0);
 
   if (newArr.length < length - 1) return -1;
   if (newArr.length === length - 1) {
-    const min = Math.min(...newArr);
-    const index1 = newArr.indexOf(min);
+    const index1 = newArr.indexOf(Math.min(...newArr));
     newArr.splice(index1, 1);
     const avg = newArr.reduce((a, b) => a + b, 0) / newArr.length;
     return avg.toFixed();
   }
 
-  const min = Math.min(...newArr);
-  const max = Math.max(...newArr);
-
-  const index1 = newArr.indexOf(min);
+  const index1 = newArr.indexOf(Math.min(...newArr));
+  const index2 = newArr.indexOf(Math.max(...newArr));
   newArr.splice(index1, 1);
-  const index2 = newArr.indexOf(max);
   newArr.splice(index2, 1);
-
   const avg = newArr.reduce((a, b) => a + b, 0) / newArr.length;
-
   return avg.toFixed();
+};
+
+export const loadAvg = (arr, length) => {
+  let arrTimes = arr.map((item) => item.time);
+  let tempArr = [...arr];
+
+  for (let i = 0; i < arrTimes.length - (length - 1); i++) {
+    let newArr = [];
+    let avg;
+
+    if (i < length - 1) {
+      avg = 0;
+    } else {
+      for (let j = 0; j < length; j++) {
+        newArr = [...newArr, arrTimes[j + i]];
+      }
+
+      newArr = newArr.filter((item) => item >= 0);
+
+      if (newArr.length < length - 1) avg = -1;
+      else if (newArr.length === length - 1) {
+        const index1 = newArr.indexOf(Math.min(...newArr));
+        newArr.splice(index1, 1);
+        avg = newArr.reduce((a, b) => a + b, 0) / newArr.length;
+      } else {
+        const index1 = newArr.indexOf(Math.min(...newArr));
+        const index2 = newArr.indexOf(Math.max(...newArr));
+        newArr.splice(index1, 1);
+        newArr.splice(index2, 1);
+        avg = newArr.reduce((a, b) => a + b, 0) / newArr.length;
+      }
+    }
+    tempArr[i][`ao${length}`] = avg;
+  }
+  return tempArr;
 };

@@ -3,23 +3,13 @@ import React, { useState, useEffect } from "react";
 import EmptySpace from "./components/EmptySpace";
 import Main from "./components/Main";
 import SideBar from "./components/SideBar";
-import { displayTime, getAvg } from "./utils/TimerUtils";
+import { displayTime, getAvg, loadAvg } from "./utils/TimerUtils";
 import mainScramble from "./utils/Scramble";
 
 function App() {
   const [theme, setTheme] = useState("dark");
   const [state, setState] = useState("");
-  const [solves, setSolves] = useState([
-    {
-      time: 0,
-      date: Date.now,
-      scramble: "",
-      ao5: getAvg([], 0, 5),
-      ao12: getAvg([], 0, 12),
-      ao50: getAvg([], 0, 50),
-      ao100: getAvg([], 0, 100),
-    },
-  ]);
+  const [solves, setSolves] = useState([]);
   const [displaySec, setDisplaySec] = useState("");
   const [scramble, setScramble] = useState("");
   const [currentType, setCurrentType] = useState("3x3");
@@ -72,11 +62,19 @@ function App() {
     const temp = [...solves];
     temp[index].time += 200;
     setSolves(temp);
+    setSolves((curr) => loadAvg(curr, 5));
+    setSolves((curr) => loadAvg(curr, 12));
+    setSolves((curr) => loadAvg(curr, 50));
+    setSolves((curr) => loadAvg(curr, 100));
   };
   const dnfTime = (index) => {
     const temp = [...solves];
     temp[index].time = -1;
     setSolves(temp);
+    setSolves((curr) => loadAvg(curr, 5));
+    setSolves((curr) => loadAvg(curr, 12));
+    setSolves((curr) => loadAvg(curr, 50));
+    setSolves((curr) => loadAvg(curr, 100));
   };
   const resetSolves = () => {
     let answer = window.confirm("Are you sure?");
